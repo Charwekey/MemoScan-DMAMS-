@@ -72,17 +72,7 @@ Follow these steps to set up DMAMS locally:
 
 ---
 
-## Default User Accounts & Credentials
 
-The database seeder initializes the following accounts for testing:
-
-| Role | Name | Email | Password | Permissions |
-| :--- | :--- | :--- | :--- | :--- |
-| **Admin** | Admin Officer | `admin@memoscan.test` | `password` | Full access, user creation/deletion, audit trail, memo deletion/recovery. |
-| **Staff** | Registrar Office | `staff@memoscan.test` | `password` | Upload/edit memos, view files. |
-| **Viewer** | Auditor User | `viewer@memoscan.test` | `password` | Read-only search, metadata view, and downloads. |
-
----
 
 ## Running Tests
 
