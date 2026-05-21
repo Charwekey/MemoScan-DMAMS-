@@ -1,59 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Digital Memo Archiving & Management System (DMAMS)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+DMAMS is a premium, web-based internal administrative platform designed to digitally store, organize, retrieve, and manage official school memos and documents. It replaces physical filing systems to prevent document loss, improve accessibility, and streamline administrative efficiency.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Key Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Dual-Source Document Acquisition**:
+  - **Direct Webcam Scanning**: Scan physical documents using a webcam stream. The pages are captured individually and compiled client-side into a single, clean A4 PDF file using `jsPDF`.
+  - **Standard File Uploads**: Upload existing document formats including PDF, JPG, JPEG, and PNG (up to 10MB).
+- **Auto-Generated Tracking Numbers**: Automatic generation of unique, structured memo tracking numbers (e.g., `REG/2026/001`) based on the originating department, the memo's year, and a sequential counter.
+- **Advanced Search & Filtering**: Locate memos quickly using text searches (subject/description) or filters for department, category, and date ranges.
+- **Role-Based Access Control (RBAC)**:
+  - **Admin**: Full system access, dashboard metrics, audit trails, user management (create/delete accounts), and soft-delete recovery.
+  - **Staff**: Can upload memos, edit metadata for memos they uploaded, and search/view files.
+  - **Viewer**: Read-only access to browse, search, and download memos.
+- **Audit Trails**: Secure logging of all user activities (uploads, downloads, updates, deletions, and restorations) to ensure administrative accountability.
+- **Soft Deletion & Recovery**: Deleted records are soft-deleted and can be reviewed/restored by administrators to prevent accidental loss.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Backend**: Laravel 13 (PHP 8.4)
+- **Frontend**: Blade Templates, Tailwind CSS (harmonious, dark-themed layout with glassmorphic elements and subtle micro-animations)
+- **Database**: SQLite (configured for lightweight, local development)
+- **Client-Side Compilation**: jsPDF for merging scanned images into PDFs
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Setup & Installation
 
-## Agentic Development
+Follow these steps to set up DMAMS locally:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Prerequisites
+- PHP 8.4+
+- Composer
+- SQLite3
 
+### Steps
+
+1. **Clone the repository and enter the directory**:
+   ```bash
+   cd MemoScan
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. **Configure Environment File**:
+   Copy `.env.example` to `.env`:
+   ```bash
+   copy .env.example .env
+   ```
+
+4. **Initialize Database**:
+   Run database migrations and seed default administrative credentials and roles:
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+
+5. **Start the Application**:
+   You can start the local development server:
+   ```bash
+   php artisan serve
+   ```
+   Or access it via Laravel Herd/Valet at `http://memoscan.test`.
+
+---
+
+## Default User Accounts & Credentials
+
+The database seeder initializes the following accounts for testing:
+
+| Role | Name | Email | Password | Permissions |
+| :--- | :--- | :--- | :--- | :--- |
+| **Admin** | Admin Officer | `admin@memoscan.test` | `password` | Full access, user creation/deletion, audit trail, memo deletion/recovery. |
+| **Staff** | Registrar Office | `staff@memoscan.test` | `password` | Upload/edit memos, view files. |
+| **Viewer** | Auditor User | `viewer@memoscan.test` | `password` | Read-only search, metadata view, and downloads. |
+
+---
+
+## Running Tests
+
+DMAMS comes with a comprehensive feature test suite covering authentication, permissions, audit logs, file uploads, and webcam scanned document ingestion.
+
+To run the tests:
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php vendor/phpunit/phpunit/phpunit
 ```
-
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-"# MemoScan-DMAMS-" 
+Or:
+```bash
+php artisan test
+```
